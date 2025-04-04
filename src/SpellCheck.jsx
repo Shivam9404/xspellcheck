@@ -9,13 +9,13 @@ const customDictionary = {
 
 const SpellCheckApp = () => {
   const [text, setText] = useState("");
-  const [suggestion, setSuggestion] = useState("");
+  const [suggestion, setSuggestion] = useState(null);
 
   const handleChange = (e) => {
     let inputText = e.target.value;
     let words = inputText.split(" ");
     let correctedWords = [];
-    let firstCorrection = "";
+    let firstCorrection = null;
 
     for (let i = 0; i < words.length; i++) {
       let word = words[i];
@@ -23,9 +23,12 @@ const SpellCheckApp = () => {
 
       if (customDictionary[lowerCaseWord]) {
         if (!firstCorrection) {
-          firstCorrection = `Did you mean: ${customDictionary[lowerCaseWord]}?`;
+          firstCorrection = (
+            <>
+              Did you mean: <b>{customDictionary[lowerCaseWord]}?</b>
+            </>
+          );
         }
-        // Preserve incorrect word until space is added
         correctedWords.push(i === words.length - 1 ? word : customDictionary[lowerCaseWord]);
       } else {
         correctedWords.push(word);
@@ -50,7 +53,7 @@ const SpellCheckApp = () => {
           fontSize: "16px",
         }}
       />
-      {suggestion && <p style={{ color: "red" }}>{suggestion}</p>}
+      {suggestion && <p style={{ color: "black" }}>{suggestion}</p>}
     </div>
   );
 };
